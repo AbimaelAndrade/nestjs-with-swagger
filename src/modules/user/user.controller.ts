@@ -1,6 +1,17 @@
-import { Controller, Body, Post, Put, Param, Get } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Post,
+  Put,
+  Param,
+  Get,
+  Delete,
+  HttpCode,
+  HttpStatus,
+} from '@nestjs/common';
 import {
   ApiCreatedResponse,
+  ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
@@ -80,5 +91,17 @@ export class UserController {
       id: params.id,
       ...createUserDto,
     };
+  }
+
+  @Delete('remove/:id')
+  @ApiNoContentResponse({
+    description: 'Usuário excluído com sucesso',
+  })
+  @ApiNotFoundResponse({
+    description: 'Usuário não encontrado',
+  })
+  @HttpCode(HttpStatus.NO_CONTENT)
+  async delete(@Param() params: ParamUserDTO): Promise<void> {
+    return null;
   }
 }
