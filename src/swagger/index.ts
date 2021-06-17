@@ -11,6 +11,12 @@ export const setupSwagger = (app: INestApplication) => {
       'http://localhost:3000/api/',
       'abimael.andrade@gmail.com',
     )
+    .addBearerAuth({
+      type: 'http',
+      scheme: 'bearer',
+      bearerFormat: 'JWT',
+      in: 'header',
+    })
     .build();
 
   const document = SwaggerModule.createDocument(app, options);

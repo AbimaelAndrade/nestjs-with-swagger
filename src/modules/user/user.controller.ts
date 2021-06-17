@@ -8,19 +8,24 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import {
+  ApiBearerAuth,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiTags,
+  ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { UserResposeDto } from './dtos/user-response.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ParamUserDTO } from './dtos/param-user.dto';
+import { AuthGuard } from '../../core/guard/auth.guard';
 
 @ApiTags('user')
+@ApiBearerAuth()
 @Controller('users')
 export class UserController {
   @Get()
@@ -83,6 +88,10 @@ export class UserController {
   @ApiNotFoundResponse({
     description: 'Usuário não encontrado',
   })
+  @ApiUnauthorizedResponse({
+    description: 'Acesso não autorizado',
+  })
+  @UseGuards(AuthGuard)
   async update(
     @Param() params: ParamUserDTO,
     @Body() createUserDto: CreateUserDto,
@@ -100,7 +109,11 @@ export class UserController {
   @ApiNotFoundResponse({
     description: 'Usuário não encontrado',
   })
+  @ApiUnauthorizedResponse({
+    description: 'Acesso não autorizado',
+  })
   @HttpCode(HttpStatus.NO_CONTENT)
+  @UseGuards(AuthGuard)
   async delete(@Param() params: ParamUserDTO): Promise<void> {
     return null;
   }
