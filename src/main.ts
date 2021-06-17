@@ -8,6 +8,8 @@ async function bootstrap() {
   // Config swagger
   setupSwagger(app);
 
+  app.setGlobalPrefix('/api');
+
   await app.listen(3000);
 }
 
