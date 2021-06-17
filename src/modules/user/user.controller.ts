@@ -19,11 +19,13 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { UserResponsePaginatedDto, UserResposeDto } from './dtos/user-response.dto';
+import {
+  UserResponsePaginatedDto,
+  UserResposeDto,
+} from './dtos/user-response.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ParamUserDTO } from './dtos/param-user.dto';
 import { AuthGuard } from '../../core/guard/auth.guard';
-import { PaginatedResponsetDto } from 'src/shared/dto/pagination-response.dto';
 
 @ApiTags('user')
 @ApiBearerAuth()
