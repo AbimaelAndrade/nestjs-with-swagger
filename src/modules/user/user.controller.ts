@@ -19,10 +19,11 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { UserResposeDto } from './dtos/user-response.dto';
+import { UserResponsePaginatedDto, UserResposeDto } from './dtos/user-response.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { ParamUserDTO } from './dtos/param-user.dto';
 import { AuthGuard } from '../../core/guard/auth.guard';
+import { PaginatedResponsetDto } from 'src/shared/dto/pagination-response.dto';
 
 @ApiTags('user')
 @ApiBearerAuth()
@@ -31,24 +32,28 @@ export class UserController {
   @Get()
   @ApiOkResponse({
     description: 'Usuários do sistema',
-    type: UserResposeDto,
-    isArray: true,
+    type: UserResponsePaginatedDto,
   })
-  async index(): Promise<UserResposeDto[]> {
-    return [
-      {
-        id: 1,
-        firstName: 'Fulado',
-        lastName: 'Silva',
-        email: 'fulano@email.com',
-      },
-      {
-        id: 2,
-        firstName: 'Beltrano',
-        lastName: 'Pereira',
-        email: 'b.pereira@email.com',
-      },
-    ];
+  async index(): Promise<UserResponsePaginatedDto> {
+    return {
+      data: [
+        {
+          id: 1,
+          firstName: 'Fulado',
+          lastName: 'Silva',
+          email: 'fulano@email.com',
+        },
+        {
+          id: 2,
+          firstName: 'Beltrano',
+          lastName: 'Pereira',
+          email: 'b.pereira@email.com',
+        },
+      ],
+      page: 1,
+      limit: 10,
+      count: 2,
+    };
   }
 
   @Get(':id')
