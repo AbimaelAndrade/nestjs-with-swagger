@@ -1,4 +1,4 @@
-import { Controller, Body, Post, Put, Param } from '@nestjs/common';
+import { Controller, Body, Post, Put, Param, Get } from '@nestjs/common';
 import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
@@ -11,6 +11,29 @@ import { CreateUserDto } from './dtos/create-user.dto';
 @ApiTags('user')
 @Controller('users')
 export class UserController {
+  @Get()
+  @ApiOkResponse({
+    description: 'Usuários do sistema',
+    type: UserResposeDto,
+    isArray: true,
+  })
+  async index(): Promise<UserResposeDto[]> {
+    return [
+      {
+        id: 1,
+        firstName: 'Fulado',
+        lastName: 'Silva',
+        email: 'fulano@email.com',
+      },
+      {
+        id: 2,
+        firstName: 'Beltrano',
+        lastName: 'Pereira',
+        email: 'b.pereira@email.com',
+      },
+    ];
+  }
+
   @Post('create')
   @ApiCreatedResponse({
     description: 'Usuário criado com sucesso',
