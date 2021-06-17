@@ -7,6 +7,7 @@ import {
 } from '@nestjs/swagger';
 import { UserResposeDto } from './dtos/user-response.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
+import { ParamUserDTO } from './dtos/param-user.dto';
 
 @ApiTags('user')
 @Controller('users')
@@ -34,6 +35,23 @@ export class UserController {
     ];
   }
 
+  @Get(':id')
+  @ApiOkResponse({
+    description: 'Usuários do sistema',
+    type: UserResposeDto,
+  })
+  @ApiNotFoundResponse({
+    description: 'Usuário não encontrado',
+  })
+  async show(@Param() params: ParamUserDTO): Promise<UserResposeDto> {
+    return {
+      id: params.id,
+      firstName: 'Fulado',
+      lastName: 'Silva',
+      email: 'fulano@email.com',
+    };
+  }
+
   @Post('create')
   @ApiCreatedResponse({
     description: 'Usuário criado com sucesso',
@@ -55,11 +73,11 @@ export class UserController {
     description: 'Usuário não encontrado',
   })
   async update(
-    @Param() userId: number,
+    @Param() params: ParamUserDTO,
     @Body() createUserDto: CreateUserDto,
   ): Promise<UserResposeDto> {
     return {
-      id: userId,
+      id: params.id,
       ...createUserDto,
     };
   }
